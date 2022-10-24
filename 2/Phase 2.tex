@@ -68,7 +68,7 @@
 				where \(t\) is time (the independent variable), \(S_t\) is the stock price (as a function of time), \(\mu\) is the (constant) expected return on the stock, \(\sigma\) is the (constant) volatility (standard deviation), and \(W_t\) is a standard Wiener process, with mean 0 and variance 1. \\
 			The Wiener process is stochastic, meaning that its value changes over time randomly. As such, only the distribution of possible values is known at any given point in time. This distribution is defined by the mean and variance, in this case 0 and 1 respectively. The Wiener process is a series of randomly distributed normal variables with variances that increase over time, reflecting the increasing uncertainty in making predictions further into the future. \\
 			The change in the Wiener process can be found as
-				\[\Delta w = \varepsilon\sqrt{\Delta t}\]
+				\[\Delta W = \varepsilon\sqrt{\Delta t}\]
 				where \(\varepsilon \sim \ndist(0, 1)\) (\(\varepsilon\) being a continuous random variable following the standard Normal distribution, but mean 0 and variance 1). This implies that the change in the Wiener process is itself a transformation of the standard Normal distribution, as \(\sqrt{\Delta t}\) is simply some constant multiplier when parameter \(t\) is fixed. \\
 				As such, the mean of the Wiener process can be found to be
 					\[\Exp[\Delta W] = \sqrt{\Delta t} \times \Exp[\varepsilon] = 0\]
@@ -76,7 +76,7 @@
 					\[\vari[x] = \left(\sqrt{\Delta t}\right)^2\vari[\varepsilon] = \Delta t\]
 				The Wiener process can therefore be denoted \(\ndist(0, \Delta t)\). \\
 			The difference between the Wiener process at times \(T\) and 0 can be found as
-				\[W(T) - W(0) \sum_{i = 1}^n \varepsilon_i\sqrt{\Delta t} = \sum_{i = 1}^n W_i \quad \text{where } n = \frac{T}{\Delta t} \]
+				\[W(T) - W(0) = \sum_{i = 1}^n \varepsilon_i\sqrt{\Delta t} = \sum_{i = 1}^n W_i \quad \text{where } n = \frac{T}{\Delta t} \]
 				As \(W(T) - W(0)\) is simply a linear combination of \(n\) random normal variables \(W_i\), it must itself also follow a Normal distribution. It should be noted that \(W(0)\) must be fixed, as it is what defines the function's starting point. As such,
 				\[\Exp[W(0)] = \vari[W(0)] = 0\]
 		 		It can then be seen that
@@ -84,7 +84,7 @@
 		 		As the difference is a linear combination of \(\Delta W_t\) \(n\) times,
 		 			\[\Exp[W(T)] = n \times \Exp[\Delta W_t] = 0\]
 		 		The distributions of the values Wiener process at times \(t_i\) and \(t_j\) are independent, so
-		 			\[\vari[W(T) - W(0)] = \vari[W(T)] + \vari[W(0)] = \vari[W(T)] = n \times \vari[W(T)] = n\Delta t\]
+		 			\[\vari[W(T) - W(0)] = \vari[W(T)] + \vari[W(0)] = \vari[W(T)] = n \times \vari[\Delta W_t] = n\Delta t\]
 		 		In conclusion, \(W(T) \sim \ndist(0, T)\). \\
 			 As \(n \to \infty\), \(\Delta t\) and \(\Delta W_t\) become the differentials \(\dd{t}\) and \(\dd{W_t}\). \\
 			 The explicit solution of this DE is

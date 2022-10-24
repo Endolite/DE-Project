@@ -1,0 +1,108 @@
+\documentclass[12pt, A4]{article}
+
+% Packages
+	% Basics
+		\usepackage{amsmath}
+		\usepackage{bm}
+		\usepackage{cellspace}
+		\usepackage{csquotes}
+		\usepackage{fixltx2e}
+		\usepackage[hang,flushmargin]{footmisc}
+		\usepackage{float}
+		\usepackage[margin=0.75in]{geometry}
+		\usepackage{graphicx}
+		\usepackage{hyperref}
+		\usepackage[utf8]{inputenc}
+		\usepackage{subcaption}
+	% Diagrams
+		\usepackage{pgfplots}
+		\usepackage{tikz}
+			\usepackage{circuitikz} % Circuits
+			\usepackage{tikz-3dplot} % 3D
+			\usetikzlibrary{arrows.meta, angles, calc, quotes}
+	% Notation
+		\usepackage{amssymb} % Miscellaneous
+		\usepackage{chemformula}
+		\usepackage{esint} % Integrals
+		\usepackage{physics} % Differentials/Vectors
+% Configuration
+	\title{Differential Equations Project: Phase 3}
+	\author{Arnav Patri and Shashank Chidige}
+	\date{October 23, 2022}
+	\hypersetup{
+	    colorlinks,
+	    citecolor=cyan,
+	    filecolor=cyan,
+	    linkcolor=cyan,
+	    urlcolor=cyan
+	}
+	\cellspacetoplimit10pt
+	\cellspacebottomlimit10pt
+	
+% Macros
+	% Notation
+		% Constants
+			\DeclareMathOperator{\en}{e}
+		% Distributions
+			\newcommand{\Exp}{\mathbb{E}}
+			\newcommand{\ndist}{\mathcal{N}}
+			\DeclareMathOperator{\vari}{var}
+		% Functions
+			\DeclareMathOperator{\erfc}{erfc}
+		% Sets
+			\newcommand{\R}{\mathbb{R}}
+		% Other
+			\DeclareMathOperator{\avg}{avg}
+			\renewcommand{\th}{\text{th}}
+	% Utilities
+		\newcommand{\callout}[2]{\begin{center}\fbox{\begin{minipage}{#1cm}#2\end{minipage}}\end{center}}
+		\newcommand{\comment}[1]{}
+		\newcommand{\subsectionb}[1]{\subsection*{#1}\addcontentsline{toc}{subsection}{#1}}
+		\newcommand{\subsubsectionb}[1]{\subsubsection*{#1}\addcontentsline{toc}{subsubsection}{#1}}
+		
+\begin{document}
+	\maketitle
+	\noindent
+		A stock's price \(S_t\) (in USD) can be predicted with respect to time \(t\) (in days from an initial time) using a growth function; that is, by relating the rate at which the stock price is changing to the current stock price as a proportion:
+			\[\dv{S_t}{t} \propto S_t\]
+			The constant of proportionality is the drift \(\mu\) of the stock, which is the rate of change of the expected value of the stock price (which is not the expected value of its rate of change):
+			\[
+				\dv{S_t}{t} = \mu S_t \qquad \text{where} \qquad
+				\mu= \frac{\Delta \Exp[S_t]}{\Delta t}
+			\]
+			The stock market is constantly volatile, though, changing in unpredictable ways. This randomness element can be modeled by a randomness term, the rate of change of the standard Wiener process \(W_t\):
+			\[\text{rate of randomness} \propto \dv{W_t}{t}\]
+			The proportionality constant is the volatility \(\sigma\) of the stock, which is simply its standard deviation. Adding this term,
+			\[
+				\dv{S_t}{t} = \mu S_t + \sigma\dv{W_t}{t} \qquad \text{where} \qquad
+				\sigma = \frac{\sum (S_{t, i} - \bar{S_t})}{n - 1}
+			\]
+			The randomness term ensures that each trial of the model yields a different graph. The following is a sample graph:
+			\[\includegraphics[width = \textwidth]{images/MatLab_Graph.png}\]
+		The DE can be rewritten as
+			\[\dd{S}_t = \mu_t\dd{t} + \sigma\dd{W_t}\]
+			where \(\mu_t = \mu S_t\). Integrating and reparameterizing \(\mu_t\) with and \(W_t\) with \(s\),
+			\[S_t = \int_0^t\mu_s\dd{s} + \int_0^t\sigma\dd{W}_s + S_0\]
+			where \(S_0\) is the constant of integration (the initial stock price). This makes \(S_t\) an It\^o process, a stochastic process expressible as the sum of two integrals, one with respect to a stochastic process and another with respect to time, and a constant. \\
+		The Taylor expansion of a twice-differentiable scalar function \(f(t, s)\) is
+			\[\dd{f} = \pdv{f}{t}\dd{t} + \pdv{f}{s}\dd{s} + \frac{1}{2}\pdv[2]{f}{s}\dd[2]{s} + \cdots\]
+			Substituting \(S_t\) for \(s\) and appropriately substituting for \(\dd{s}\) yields
+			\[\dd{f} + \pdv{f}{t}\dd{t} + \pdv{f}{s} (\mu_t\dd{t} + \sigma\dd{W_t}) + \pdv[2]{f}{s}\left(\mu_t^2\dd{t^2} + 2\mu_t\sigma_t\dd{t}\dd{W_t} + \sigma^2\dd{W_t}^2\right) + \cdots\]
+			As \(\dd{t}\) approaches 0, \(\dd{t}^2\) and \(\dd{t}\dd{W_t}\) tend to zero faster than \(\dd{W_t^2}\). Substituting 0 for \(\dd{t^2}\) and \(\dd{t}\dd{W_t}\) and \(\dd{t}\) for \(\dd{W_t^2}\) yields
+			\[\dd{f} = \left(\pdv{f}{t} + \mu_t\pdv{f}{s} + \frac{\sigma^2}{2}\pdv[2]{f}{s}\right)\dd{t} + \sigma\pdv{f}{s}\dd{W_t}\]
+			This is itself an It\^o process It\^o's lemma states that this is true of any It\^o process \(S_t\) and any twice-differentiable function \(f(t, s)\). \\
+		Let \(f(S_t) = \ln S_t\). Applying It\^o's lemma,
+			\begin{align*}
+				\dd{f} &= f'(S_t)\dd{S_t} + \frac{1}{2}f''(S_t)(\dd{S_t})^2 \\
+					&= \frac{1}{S_t}\dd{S_t} - \frac{1}{2S_2^2}\left(S_t^2\sigma^2\dd{t}\right) \\
+					&= \frac{1}{S_t}(\sigma S_1 \dd{W_t} + \mu S_t \dd{t}) - \frac{\sigma^2}{2}\dd{t} \\
+					&= \sigma \dd{W_t} + \left(\mu - \frac{\sigma^2}{2}\right)\dd{t}
+			\end{align*}
+			Integrating the separable DE,
+			\[
+				f(t) = \ln S_t 
+					= \ln S_0 + \sigma W_t + \left(\mu - \frac{\sigma^2}{2}\right)\dd{t} \\
+			\]
+			This can finally be exponentiated, yielding \(S_t\):
+			\[S_t = S_0\en^{\left(\mu - \frac{\sigma^2}{2}\right)t + \sigma W_t}\]
+\end{document}
