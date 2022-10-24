@@ -80,17 +80,17 @@
 			The randomness term ensures that each trial of the model yields a different graph. The following is a sample graph:
 			\[\includegraphics[width = \textwidth]{images/MatLab_Graph.png}\]
 		The DE can be rewritten as
-			\[\dd{S}_t = \mu_t\dd{t} + \sigma\dd{W_t}\]
-			where \(\mu_t = \mu S_t\). Integrating and reparameterizing \(\mu_t\) with and \(W_t\) with \(s\),
-			\[S_t = \int_0^t\mu_s\dd{s} + \int_0^t\sigma\dd{W}_s + S_0\]
+			\[\dd{S}_t = \mu_t\dd{t} + \sigma_t\dd{W_t}\]
+			where \(\mu_t = \mu S_t\) and \(\sigma_t = \sigma S_t\). Integrating and reparameterizing \(\mu_t\), \(\sigma_t\) and \(W_t\) with \(s\),
+			\[S_t = \int_0^t\mu_s\dd{s} + \int_0^t\sigma_s\dd{W}_s + S_0\]
 			where \(S_0\) is the constant of integration (the initial stock price). This makes \(S_t\) an It\^o process, a stochastic process expressible as the sum of two integrals, one with respect to a stochastic process and another with respect to time, and a constant. \\
 		The Taylor expansion of a twice-differentiable scalar function \(f(t, s)\) is
 			\[\dd{f} = \pdv{f}{t}\dd{t} + \pdv{f}{s}\dd{s} + \frac{1}{2}\pdv[2]{f}{s}\dd[2]{s} + \cdots\]
 			Substituting \(S_t\) for \(s\) and appropriately substituting for \(\dd{s}\) yields
-			\[\dd{f} + \pdv{f}{t}\dd{t} + \pdv{f}{s} (\mu_t\dd{t} + \sigma\dd{W_t}) + \pdv[2]{f}{s}\left(\mu_t^2\dd{t^2} + 2\mu_t\sigma_t\dd{t}\dd{W_t} + \sigma^2\dd{W_t}^2\right) + \cdots\]
+			\[\dd{f} + \pdv{f}{t}\dd{t} + \pdv{f}{s} (\mu_t\dd{t} + \sigma_t\dd{W_t}) + \pdv[2]{f}{s}\left(\mu_t^2\dd{t^2} + 2\mu_t\sigma_t\dd{t}\dd{W_t} + \sigma_t^2\dd{W_t}^2\right) + \cdots\]
 			As \(\dd{t}\) approaches 0, \(\dd{t}^2\) and \(\dd{t}\dd{W_t}\) tend to zero faster than \(\dd{W_t^2}\). Substituting 0 for \(\dd{t^2}\) and \(\dd{t}\dd{W_t}\) and \(\dd{t}\) for \(\dd{W_t^2}\) yields
-			\[\dd{f} = \left(\pdv{f}{t} + \mu_t\pdv{f}{s} + \frac{\sigma^2}{2}\pdv[2]{f}{s}\right)\dd{t} + \sigma\pdv{f}{s}\dd{W_t}\]
-			This is itself an It\^o process It\^o's lemma states that this is true of any It\^o process \(S_t\) and any twice-differentiable function \(f(t, s)\). \\
+			\[\dd{f} = \left(\pdv{f}{t} + \mu_t\pdv{f}{s} + \frac{\sigma_t^2}{2}\pdv[2]{f}{s}\right)\dd{t} + \sigma_t\pdv{f}{s}\dd{W_t}\]
+			This is itself an It\^o process. It\^o's lemma states that for any It\^o process \(S_t\) and any twice-differentiable function \(f(t, s)\), \(f(t, S_t)\) is an It\^o process. \\
 		Let \(f(S_t) = \ln S_t\). Applying It\^o's lemma,
 			\begin{align*}
 				\dd{f} &= f'(S_t)\dd{S_t} + \frac{1}{2}f''(S_t)(\dd{S_t})^2 \\
@@ -105,4 +105,11 @@
 			\]
 			This can finally be exponentiated, yielding \(S_t\):
 			\[S_t = S_0\en^{\left(\mu - \frac{\sigma^2}{2}\right)t + \sigma W_t}\]
+			Substituting for \(S_0\), \(\mu\), and \(\sigma\),
+			\[S_t = 141.501\en^{\left(0.00064 + \frac{4.356^2}{2} \right) + 4.356W_t}\]
+			The following are the Matlab code, solution (for the deterministic term), and graph:
+				\[\includegraphics[width = 8cm]{Images/matlab.png}\]
+				\[\includegraphics[width = 2cm]{Images/sol.png}\]
+				\[\includegraphics[width = 10cm]{Images/modelGraph.jpg}\]
+			The following is the \href{https://docs.google.com/spreadsheets/d/10UhPew6GsC5f6DCJjFd24MZSaZ1SWjiQvmOD6k-tmcE/edit}{\underline{Excel spreadsheet}}.
 \end{document}
