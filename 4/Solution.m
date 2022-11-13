@@ -23,8 +23,8 @@ end
 figure()
 hold on;
 plot(tvals, Svals);
-xlabel('time (days from 9/27/22)')
-ylabel('stock price (USD)')
+xlabel('time (days from 9/27/22) (t)')
+ylabel('stock price (USD) (S_t)')
 
 % Solving for the non-stochastic term
 syms s(t)

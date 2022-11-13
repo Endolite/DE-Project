@@ -62,7 +62,7 @@
 \begin{document}
 	\maketitle
 	\noindent
-	This is the dependent variable Stock Price of Google (\(S\)) and the independent variable Days (\(t\)). The data is taken from Yahoo Finance from the ticker GOOG. 
+	This is the dependent variable Stock Price of Alphabet (\(S\)) and the independent variable Days (\(t\)). The data is taken from Yahoo Finance from the ticker GOOG. 
 	\[\includegraphics[width = 9cm]{Images/Table_1}\]
 	This table calculates the changes in each variable.
 	\[\includegraphics[width = 18cm]{Images/Table_2}\]
@@ -75,9 +75,9 @@
 	The DE being used to model stock price is
 		\[\dv{S_t}{t} = \mu S_t + \sigma S_t\dv{W_t}{t}\]6
 		where \(S_t\) is stock price as a function of time \(t\), \(\mu\) is the (constant) drift, \(\sigma\) is the (constant) volatility, and \(W_t\) is a standard Wiener process. The dependent variable \(t\) is not present, making this an autonomous DE. The only information needed for the model are \(\mu\), \(\sigma\), and the initial stock price \(S_0\). \\
-	\(\mu\) is the amount that \(\Exp(S)\) changes, making it the coefficient of the linear regression of \(\Delta S/\Delta t\) against \(S\), so \(\mu \approx 0.233\). \\
-	\(\sigma\) is simply the standard deviation of the stock price in the sample, so \(\s igma \approx 4.356\). \\
+	\(\mu\) is the amount that \(\Exp(S)\) changes per year, making it the coefficient of the linear regression of \(\Delta S/\Delta t\) against \(S\) divided by 365, so \(\mu \approx 0.00064\). \\
+	\(\sigma\) is simply the standard deviation of the stock price in the sample, so \(\sigma \approx 4.356\). \\
 	The model then becomes
-		\[\boxed{\dv{S_t}{t} = 0.233S_t + 4.356S_t\dv{W_t}{t}}\]
+		\[\boxed{\dv{S_t}{t} = 0.00064S_t + 4.356S_t\dv{W_t}{t}}\]
 		
 \end{document}

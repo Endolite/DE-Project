@@ -26,7 +26,7 @@
 		\usepackage{esint} % Integrals
 		\usepackage{physics} % Differentials/Vectors
 % Configuration
-	\title{Differential Equations Project: Phase 3}
+	\title{Differential Equations Project: Phase 4}
 	\author{Arnav Patri and Shashank Chidige}
 	\date{October 23, 2022}
 	\hypersetup{
@@ -63,22 +63,23 @@
 \begin{document}
 	\maketitle
 	\noindent
+		The following is the \href{https://docs.google.com/spreadsheets/d/10UhPew6GsC5f6DCJjFd24MZSaZ1SWjiQvmOD6k-tmcE/edit}{\underline{Excel spreadsheet}}. It uses data collected from Yahoo Finance on the value of GOOG (Alphabet Inc.'s stock price). \\
 		A stock's price \(S_t\) (in USD) can be predicted with respect to time \(t\) (in days from an initial time) using a growth function; that is, by relating the rate at which the stock price is changing to the current stock price as a proportion:
 			\[\dv{S_t}{t} \propto S_t\]
-			The constant of proportionality is the drift \(\mu\) of the stock, which is the rate of change of the expected value of the stock price (which is not the expected value of its rate of change):
+			The constant of proportionality is the drift \(\mu\) of the stock, which is the rate of change of the expected value \(\Exp[S_t]\) of the stock price with respect to time (which is not the expected value of its rate of change):
 			\[
 				\dv{S_t}{t} = \mu S_t \qquad \text{where} \qquad
 				\mu= \frac{\Delta \Exp[S_t]}{\Delta t}
 			\]
-			The stock market is constantly volatile, though, changing in unpredictable ways. This randomness element can be modeled by a randomness term, the rate of change of the standard Wiener process \(W_t\):
-			\[\text{rate of randomness} \propto \dv{W_t}{t}\]
+			The stock market is constantly volatile, though, changing in unpredictable ways. This randomness element can be modeled by a randomness term, proportional to the product of the stock price and the rate of change of the standard Wiener process \(W_t\) (as defined in Phase 2):
+			\[\text{rate of randomness} \propto S_t\dv{W_t}{t}\]
 			The proportionality constant is the volatility \(\sigma\) of the stock, which is simply its standard deviation. Adding this term,
 			\[
-				\dv{S_t}{t} = \mu S_t + \sigma\dv{W_t}{t} \qquad \text{where} \qquad
-				\sigma = \frac{\sum (S_{t, i} - \bar{S_t})}{n - 1}
+				\dv{S_t}{t} = \mu S_t + \sigma S_t\dv{W_t}{t} \qquad \text{where} \qquad
+				\sigma = \frac{\sum (S_{t, i} - \bar{S_t})}{n - 1} \qquad \text{and} \qquad
+				\bar{S_t} = \frac{\sum S_{t, i}}{n}
 			\]
-			The randomness term ensures that each trial of the model yields a different graph. The following is a sample graph:
-			\[\includegraphics[width = \textwidth]{images/MatLab_Graph.png}\]
+			The randomness term ensures that each trial of the model yields a different graph. One such trial is attached at the end of this document.
 		The DE can be rewritten as
 			\[\dd{S}_t = \mu_t\dd{t} + \sigma_t\dd{W_t}\]
 			where \(\mu_t = \mu S_t\) and \(\sigma_t = \sigma S_t\). Integrating and reparameterizing \(\mu_t\), \(\sigma_t\) and \(W_t\) with \(s\),
@@ -105,11 +106,13 @@
 			\]
 			This can finally be exponentiated, yielding \(S_t\):
 			\[S_t = S_0\en^{\left(\mu - \frac{\sigma^2}{2}\right)t + \sigma W_t}\]
-			Substituting for \(S_0\), \(\mu\), and \(\sigma\),
-			\[S_t = 141.501\en^{\left(0.00064 + \frac{4.356^2}{2} \right) + 4.356W_t}\]
-			The following are the Matlab code, solution (for the deterministic term), and graph:
+			(This solution was largely adapted from \href{https://pi.math.cornell.edu/~web6720/Wendy_slides.pdf}{\underline{Introduction to Ito's Lemma}} by Wenyu Zhang and \\\href{https://medium.com/the-quant-journey/a-gentle-introduction-to-geometric-brownian-motion-in-finance-68c37ba6f828}{\underline{A Gentle Introduction to Geometric Brownian Motion in Finance}} by Andrea Chello.) \\
+			Substituting for \(S_0\), \(\mu\), and \(\sigma\) (using the values derived in Phase 3),
+			\[S_t = 141.501\en^{\left(0.00064 + \frac{4.356^2}{2}\right)t + 4.356W_t} = 141.501\en^{9.488t + 4.356W_t}\]
+			The only condition this model must meet is the initial stock price being \$141.501, which is satisfied by setting the integration constant \(S_0\) to it. It should also be noted that the Stock's price may not fall below 0, as the solution is an exponential with a positive coefficient. \\
+			The following are the MatLab code, solution (for the deterministic term), and graph of the model of \(S_t\) vs \(t\):
 				\[\includegraphics[width = 8cm]{Images/matlab.png}\]
 				\[\includegraphics[width = 2cm]{Images/sol.png}\]
 				\[\includegraphics[width = 10cm]{Images/modelGraph.jpg}\]
-			The following is the \href{https://docs.google.com/spreadsheets/d/10UhPew6GsC5f6DCJjFd24MZSaZ1SWjiQvmOD6k-tmcE/edit}{\underline{Excel spreadsheet}}.
+			
 \end{document}
